@@ -27,13 +27,8 @@ vector<int> get_sequence(int start_number) {
 }
 
 int main(void) {
-	while (true) {
-		int A, B;
-		cin >> A >> B;
-		if (A == 0 && B == 0) {
-			break;
-		}
-
+	int A, B;
+	while (cin >> A >> B && A > 0 && B > 0) {
 		vector<int> seq_A = get_sequence(A), seq_B = get_sequence(B);
 
 		vector<int>::iterator ia, ib, ia_prev, ib_prev;
