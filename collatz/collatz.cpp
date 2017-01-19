@@ -13,6 +13,19 @@ int next(int current) {
 	}
 }
 
+vector<int> get_sequence(int start_number) {
+	vector<int> seq;
+	seq.push_back(start_number);
+
+	int x = start_number;
+	while (x != 1) {
+		x = next(x);
+		seq.push_back(x);
+	}
+
+	return seq;
+}
+
 int main(void) {
 	while (true) {
 		int A, B;
@@ -21,28 +34,15 @@ int main(void) {
 			break;
 		}
 
-		vector<int> seq_A;
-		seq_A.push_back(A);
-		while (seq_A.back() != 1) {
-			seq_A.push_back( next(seq_A.back()) );
-		}
+		vector<int> seq_A = get_sequence(A), seq_B = get_sequence(B);
 
-		vector<int> seq_B;
-		seq_B.push_back(B);
-		while (seq_B.back() != 1) {
-			seq_B.push_back( next(seq_B.back()) );
-		}
+		vector<int>::iterator ia, ib, ia_prev, ib_prev;
+		for (
+			ia = seq_A.end(), ib = seq_B.end(), ia_prev = ia - 1, ib_prev = ib - 1;
+			ia > seq_A.begin() && ib > seq_B.begin() && *ia_prev == *ib_prev;
+			ia = ia_prev--, ib = ib_prev--
+		);
 
-		vector<int>::iterator ia = seq_A.end(), ib = seq_B.end();
-		while (ia > seq_A.begin() && ib > seq_B.begin()) {
-			vector<int>::iterator ia_prev = ia - 1, ib_prev = ib - 1;
-			if (*ia_prev != *ib_prev) {
-				break;
-			}
-			ia = ia_prev;
-			ib = ib_prev;
-		}
-		
 		cout << A << " needs " << (ia - seq_A.begin()) << " steps, " << B << " needs " << (ib - seq_B.begin()) << " steps, they meet at " << *ia << endl;
 	}
 
